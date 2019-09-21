@@ -1,16 +1,19 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 # Create your models here.
 
-class Player(models.Model):
-	name = models.CharField(max_length=40)
+class Account(AbstractUser):
+	pass
 
 
 class Goal(models.Model):
-	player = models.ForeignKey(Player, on_delete=models.CASCADE)
-	name = models.CharField(max_length=40)
-	due_date = models.DateField()
-	completed = models.BooleanField()
-	#numeric = BooleanField()
+	account = models.ForeignKey(Account, on_delete=models.CASCADE)
+	name = models.CharField(max_length=100)
+	points_per_complete = models.IntegerField()
 	#goal_amount = models.IntegerField(default=-1)
-	#amount_done = models.IntegerField(default=0)
+
+class Completion(models.Model):
+	goal = models.ForeignKey(Goal, on_delete=models.CASCADE)
+	date = models.DateField()
+	quantity = models.IntegerField()
