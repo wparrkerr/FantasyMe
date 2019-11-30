@@ -8,7 +8,14 @@ from .models import Account, Goal
 # Create your views here.
 
 def index(request):
-	return HttpResponse("Ayy")
+	template = loader.get_template('players/index.html')
+	context = {}
+	return HttpResponse(template.render(context, request))
+
+def login(request):
+	template = loader.get_template('players/login.html')
+	context = {}
+	return HttpResponse(template.render(context, request))
 
 def player_detail(request, player_id):
 
