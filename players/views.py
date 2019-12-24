@@ -12,17 +12,12 @@ def index(request):
 	context = {}
 	return HttpResponse(template.render(context, request))
 
-def login(request):
-	template = loader.get_template('players/login.html')
-	context = {}
-	return HttpResponse(template.render(context, request))
 
 def home(request):
 	template = loader.get_template('players/home.html')
 	context = {}
 	return HttpResponse(template.render(context, request))
 
-def player_detail(request, player_id):
 
 	# try:
 	# 	player_obj = Player.objects.get(id=player_id)
@@ -37,5 +32,3 @@ def player_detail(request, player_id):
 	# context = {
 	# 	'current_goals': current_goals,
 	# }
-	return "hey" #HttpResponse(template.render(context, request))
-
