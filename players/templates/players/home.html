@@ -1,5 +1,12 @@
 {% extends 'players/base.html' %}
 
 {% block content %}
-<h1 style='text-align:center'>This is your homepage</h1>
+	<h1 style='text-align:center'>This is your homepage</h1>
+	{% if user.is_authenticated %}
+  	Hi {{ user.username }}!
+  	<p><a href="{% url 'logout' %}">logout</a></p>
+	{% else %}
+  	<p>You are not logged in</p>
+  	<a href="{% url 'login' %}">login</a>
+	{% endif %}
 {% endblock %}
