@@ -96,7 +96,8 @@ class SignUpForm extends React.Component {
               </tr>
             ))}
           </tbody>
-            </Table> */}
+        </Table> */}
+        <Button color="primary" onClick={() => this.props.setPage("landing")}>Back</Button>
       </div>
     )
   }
