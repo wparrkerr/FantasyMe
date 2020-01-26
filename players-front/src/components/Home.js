@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import SignUpForm from "./SignUpForm";
 import Landing from "./Landing.js";
+import Login from "./Login.js";
 
 class Home extends Component {
 
@@ -19,12 +20,7 @@ class Home extends Component {
       case "signup":
         return (<SignUpForm setPage={(pageStr) => this.setPage(pageStr)}/>)
       case "login":
-        return (
-          <div>
-            <h2>Under construction, sir.</h2>
-            <button onClick = {() => this.setPage("landing")}>BACK</button>
-          </div>
-        )
+        return (<Login setPage={(pageStr) => this.setPage(pageStr)}/>)
       default:
         return (<h2>Whoops! Invalid Page Name!</h2>)
     }
