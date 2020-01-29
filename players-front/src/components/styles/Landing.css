@@ -1,0 +1,13 @@
+#slogan {
+  font-size: 25px;
+  font-family: verdana-bold;
+  text-align: center;
+  margin-top: 12%;
+  color: rgb(112, 112, 112)
+}
+
+#button-container {
+  text-align: center;
+  margin-top: 4%;
+  
+}

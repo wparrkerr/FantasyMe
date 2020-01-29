@@ -1,8 +1,7 @@
 import React from "react";
-import { Button, Form, FormGroup, Input, Label, Table } from "reactstrap";
+import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 
 import axios from "axios";
-
 import { API_URL } from "../constants"; 
 // http://localhost:8000/api/accounts/
 
@@ -13,8 +12,7 @@ class SignUpForm extends React.Component {
     last: "",
     email: "",
     password: "",
-    password2: "",
-    accounts: []
+    password2: ""
   }
 
   componentDidMount() {
@@ -45,7 +43,6 @@ class SignUpForm extends React.Component {
     return (
       <div>
         <h2>Sign Up</h2>
-         <p1>{this.state.first}</p1>
         <Form onSubmit={this.createAccount}>
           <FormGroup>
             <Label for = "user">Username:</Label>
@@ -73,30 +70,7 @@ class SignUpForm extends React.Component {
           </FormGroup>
           <Button>Sign Up</Button>
         </Form>
-        <Table>
-          <thead>
-            <tr>
-              <th>username</th>
-              <th>first name</th>
-              <th>last name</th>
-              <th>email</th>
-              <th>password</th>
-              <th>password2</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.accounts.map(account => (
-              <tr>
-                <td>{account.username}</td>
-                <td>{account.first}</td>
-                <td>{account.last}</td>
-                <td>{account.email}</td>
-                <td>{account.password}</td>
-                <td>{account.password2}</td>
-              </tr>
-            ))}
-          </tbody>
-            </Table> 
+        <Button color="primary" onClick={() => this.props.setPage("landing")}>Back</Button>
       </div>
     )
   }

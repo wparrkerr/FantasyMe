@@ -1,0 +1,18 @@
+#outside {
+  background-color: #52b881;
+  height: 100px;
+  width: 100%;
+  position: relative;
+}
+
+#text-div {
+  position: absolute;
+  top: 25%;
+  left: 10%
+}
+
+#header-text {
+  color: white;
+  font-family: verdana;
+  font-style: unset;
+}
