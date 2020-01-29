@@ -18,11 +18,11 @@ class SignUpForm extends React.Component {
   }
 
   componentDidMount() {
-    // axios.get(API_URL).then(
-    //   res => this.setState({accounts: res.data})
-    // ).catch(
-    //   (error) => {window.alert(error)}
-    // )
+     axios.get(API_URL).then(
+       res => this.setState({accounts: res.data})
+     ).catch(
+       (error) => {window.alert(error)}
+     )
   }
 
   onChange = e => {
@@ -45,7 +45,7 @@ class SignUpForm extends React.Component {
     return (
       <div>
         <h2>Sign Up</h2>
-        {/* <p1>{this.state.first}</p1>
+         <p1>{this.state.first}</p1>
         <Form onSubmit={this.createAccount}>
           <FormGroup>
             <Label for = "user">Username:</Label>
@@ -96,7 +96,7 @@ class SignUpForm extends React.Component {
               </tr>
             ))}
           </tbody>
-            </Table> */}
+            </Table> 
       </div>
     )
   }
