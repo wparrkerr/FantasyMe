@@ -13,8 +13,9 @@ from players.serializers import GoalSerializer, AccountSerializer, CompletionSer
 from django.http import HttpResponse, JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 
@@ -119,7 +120,6 @@ def index(request):
 	template = loader.get_template('players/index.html')
 	context = {}
 	return HttpResponse(template.render(context, request))
-
 
 def home(request):
 	template = loader.get_template('players/home.html')

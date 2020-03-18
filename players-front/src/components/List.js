@@ -4,7 +4,7 @@ import './styles/Header.css';
 
 // API
 import axios from "axios";
-import { API_URL } from "../constants"; 
+import { API_ACCOUNT_LIST_URL } from "../constants"; 
 
 class List extends Component {
 
@@ -13,7 +13,7 @@ class List extends Component {
   }
 
   componentDidMount() {
-    axios.get(API_URL).then(
+    axios.get(API_ACCOUNT_LIST_URL).then(
       res => this.setState({accounts: res.data})
     ).catch(
       (error) => {window.alert(error)}
@@ -34,7 +34,7 @@ class List extends Component {
           </tr>
         </thead>
         <tbody>
-          <p>API don't work</p>
+          <p>API dont work</p>
           {this.state.accounts.map(account => (
             <tr>
               <td>{account.username}</td>

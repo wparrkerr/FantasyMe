@@ -2,14 +2,17 @@ from django.urls import path
 from rest_framework import routers
 
 from . import views
+from rest_framework_simplejwt import views as jwt_views
 
 router = routers.DefaultRouter()
-
 
 urlpatterns = [
     path('', views.index, name='index'),
     path('home/', views.home, name='home'), # homepage, for once you've logged in
     path('signup/', views.signup, name = 'signup'),
+    ## Auth ##
+    path('token/obtain/', jwt_views.TokenObtainPairView.as_view(), name='token_create'),  # override sjwt stock token
+    path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     ## API ##
     path('api/goals/', views.goal_list),
     path('api/goals/<int:pk>', views.goal_detail),
