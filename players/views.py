@@ -58,11 +58,23 @@ def goal_completions(request, pk):
 ##### Accounts ######
 
 @api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated]) # To test authentication
 def account_list(request):
 	if request.method == 'GET':
 		accounts = Account.objects.all()
 		serializer = AccountSerializer(accounts, many=True)
 		return Response(serializer.data)
+	elif request.method == 'POST':
+		serializer = AccountSerializer(data = request.data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(status=status.HTTP_201_CREATED)
+		return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET', 'POST'])
+def account_signup(request):
+	if request.method == 'GET':
+		return Response('Signup')
 	elif request.method == 'POST':
 		serializer = AccountSerializer(data = request.data)
 		if serializer.is_valid():

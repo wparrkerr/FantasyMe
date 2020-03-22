@@ -2,36 +2,43 @@ import React from "react";
 import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 
 import axios from "axios";
-import { API_LOGIN_URL } from "../constants"; 
-// http://localhost:8000/api/accounts/
+import axiosWithJWT from "../axiosApi";
 
 class LoginForm extends React.Component {
-  state = {
-    username: "",
-    password: "",
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      username: "",
+      password: "",
+    }
+    this.logIn = this.logIn.bind(this)
   }
 
   componentDidMount() {
-     axios.get(API_LOGIN_URL).then(
-       res => this.setState({accounts: res.data})
-     ).catch(
-       (error) => {window.alert(error)}
-     )
+
   }
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  logIn = e => {
+  async logIn(e) {
     e.preventDefault();
-    axios.post(API_LOGIN_URL, this.state)
-    .then(() => {
-      window.alert("Successfully Logged in!");
-    })
-    .catch((error) => {
-      window.alert(error);
-    });
+    try {
+        const data = await axiosWithJWT.post('/token/obtain/', {
+            username: this.state.username,
+            password: this.state.password
+        });
+        axiosWithJWT.defaults.headers['Authorization'] = "JWT " + data.data.access;
+        console.dir(data, {depth:null})
+        console.log(data.data.access)
+        localStorage.setItem('access_token', data.data.access);
+        localStorage.setItem('refresh_token', data.data.refresh);
+        return data;
+    } catch (error) {
+        throw error;
+    }
   };
 
   render() {
