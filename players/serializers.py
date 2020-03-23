@@ -18,6 +18,7 @@ class AccountSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Account
 		fields = ['id', 'username', 'first_name', 'last_name', 'email', 'password', 'is_superuser']
+		extra_kwargs = {'password': {'write_only': True}}
 
 class CompletionSerializer(serializers.ModelSerializer):
 	class Meta:

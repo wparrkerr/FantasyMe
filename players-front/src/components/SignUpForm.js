@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 
 import axios from "axios";
-import { API_URL } from "../constants"; 
+import { API_SIGNUP_URL } from "../constants"; 
 // http://localhost:8000/api/accounts/
 
 class SignUpForm extends React.Component {
@@ -16,7 +16,7 @@ class SignUpForm extends React.Component {
   }
 
   componentDidMount() {
-     axios.get(API_URL).then(
+     axios.get(API_SIGNUP_URL).then(
        res => this.setState({accounts: res.data})
      ).catch(
        (error) => {window.alert(error)}
@@ -29,7 +29,7 @@ class SignUpForm extends React.Component {
 
   createAccount = e => {
     e.preventDefault(); // so that page doesn't reload
-    axios.post(API_URL, this.state)
+    axios.post(API_SIGNUP_URL, this.state)
     .then(() => {
       window.alert("Successfully Signed Up!");
       // do something after

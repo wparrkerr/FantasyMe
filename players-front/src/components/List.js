@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { Table } from "reactstrap";
+import { Button, Table } from "reactstrap";
 import './styles/Header.css';
 
 // API
-import axios from "axios";
-import { API_URL } from "../constants"; 
+//import axios from "axios";
+import axiosWithJWT from "../axiosApi";
+import { API_ACCOUNT_LIST_URL } from "../constants";
 
 class List extends Component {
 
@@ -13,40 +14,51 @@ class List extends Component {
   }
 
   componentDidMount() {
-    axios.get(API_URL).then(
-      res => this.setState({accounts: res.data})
-    ).catch(
-      (error) => {window.alert(error)}
-    )
+
+    console.log(localStorage.getItem('access_token'));
+    let response = axiosWithJWT.get('/accounts/').then(
+      response => {
+        const accs = response.data;
+        this.setState({
+          accounts: accs,
+        });
+      }
+    ).catch(err => {
+      console.log("Err: " + err);
+      window.alert(err);
+    })
   }
 
   render() {
     return (
-      <Table>
-        <thead>
-          <tr>
-            <th>username</th>
-            <th>first name</th>
-            <th>last name</th>
-            <th>email</th>
-            <th>password</th>
-            <th>password2</th>
-          </tr>
-        </thead>
-        <tbody>
-          <p>API don't work</p>
-          {this.state.accounts.map(account => (
+      <div>
+        <Table>
+          <thead>
             <tr>
-              <td>{account.username}</td>
-              <td>{account.first}</td>
-              <td>{account.last}</td>
-              <td>{account.email}</td>
-              <td>{account.password}</td>
-              <td>{account.password2}</td>
+              <th>username</th>
+              <th>first name</th>
+              <th>last name</th>
+              <th>email</th>
+              <th>password</th>
+              <th>password2</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            <p>API dont work</p>
+            {this.state.accounts.map(account => (
+              <tr>
+                <td>{account.username}</td>
+                <td>{account.first}</td>
+                <td>{account.last}</td>
+                <td>{account.email}</td>
+                <td>{account.password}</td>
+                <td>{account.password2}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+        <Button color="primary" onClick={() => this.props.setPage("landing")}>Back</Button>
+      </div>
     )
   }
 
