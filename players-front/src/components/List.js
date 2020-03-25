@@ -44,8 +44,8 @@ class List extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.accounts.map(account => (
-              <tr key="body">
+            {this.state.accounts.map((account, i) => (
+              <tr key={"body" + i}>
                 <td>{account.username}</td>
                 <td>{account.first}</td>
                 <td>{account.last}</td>

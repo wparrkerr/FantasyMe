@@ -43,8 +43,8 @@ class UserGoals extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.goals.map(goal => (
-              <tr key="goals">
+            {this.state.goals.map((goal, i) => (
+              <tr key={"goals" + i}>
                 <td>{goal.id}</td>
                 <td>{goal.account}</td>
                 <td>{goal.name}</td>

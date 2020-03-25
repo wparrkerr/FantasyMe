@@ -1,6 +1,5 @@
 import React from "react";
 import { Button, Form, FormGroup, Input, Label } from "reactstrap";
-import { isValid } from './helpers/token_helpers.js'
 
 //import axios from "axios";
 import axiosWithJWT from "../axiosApi";
@@ -14,16 +13,6 @@ class LoginForm extends React.Component {
       password: "",
     }
     this.logIn = this.logIn.bind(this)
-  }
-
-  componentDidMount() {
-    if (isValid(localStorage.getItem('access_token'))){
-      // skip login and go straight to user goals page
-      console.log("your current token is good!")
-      this.props.setPage("user_goals") // redirect to user goals page
-    } else {
-      console.log("your last token is expired or null!")
-    }
   }
 
   onChange = e => {
