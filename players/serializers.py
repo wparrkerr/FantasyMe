@@ -15,6 +15,21 @@ class GoalSerializer(serializers.ModelSerializer):
 		fields = ['id', 'account', 'name', 'points_per_complete']
 
 class AccountSerializer(serializers.ModelSerializer):
+
+	password = serializers.CharField(write_only=True)
+
+	def create(self, validated_data):
+		print("ni thing: ")
+		print(validated_data)
+		acc = Account.objects.create(
+			username=validated_data['username'],
+			email=validated_data['email']
+		)
+		acc.set_password(validated_data['password'])
+		acc.save()
+
+		return acc
+
 	class Meta:
 		model = Account
 		fields = ['id', 'username', 'first_name', 'last_name', 'email', 'password', 'is_superuser']
