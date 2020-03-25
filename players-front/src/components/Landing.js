@@ -29,9 +29,15 @@ class Landing extends Component {
       <div>
         <h2 id = "slogan">Be the best you.</h2>
         <div id = "button-container">
+<<<<<<< HEAD
           <Button size="sm" color="primary" onClick = {() => this.login_clicked()}>Log In</Button>{' '}
           <Button size="sm" outline color="primary" onClick = {() => this.props.setPage("signup")}>Sign Up</Button>{' '}
           <Button size="sm" outline color="primary" onClick = {() => this.server_data_clicked()}>Server Data</Button>
+=======
+          <Button size="sm" color="primary" onClick = {() => this.props.setPage("login")}>Log In</Button>{' '}
+          <Button size="sm" outline color="primary" onClick = {() => this.props.setPage("signup")}>Sign Up</Button>{' '}
+          <Button size="sm" outline color="primary" onClick = {() => this.props.setPage("data_test")}>Server Data</Button>
+>>>>>>> 0b31c0a0a9e71b8e1801c119710232c29f385620
         </div>
       </div>
     )
