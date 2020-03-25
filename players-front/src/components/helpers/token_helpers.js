@@ -10,6 +10,7 @@ Example Token JSON:
 
 export function isValid(token){
   if (token === "") return false;
+  if (token === null) return false;
   let token_json = JSON.parse(atob(token.split(".")[1]));
   let d = new Date(token_json.exp*1000);
   let curr = new Date();

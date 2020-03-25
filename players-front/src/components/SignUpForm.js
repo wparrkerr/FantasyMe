@@ -33,7 +33,7 @@ class SignUpForm extends React.Component {
       // do something after
     })
     .catch((error) => {
-      window.alert(error);
+      window.alert(error + "... maybe email is not correct form");
     });
   };
 
