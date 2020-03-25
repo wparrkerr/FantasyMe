@@ -16,3 +16,9 @@
   font-family: verdana;
   font-style: unset;
 }
+
+#logged-status {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+}
