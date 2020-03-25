@@ -5,7 +5,7 @@ import './styles/Header.css';
 // API
 //import axios from "axios";
 import axiosWithJWT from "../axiosApi";
-import { API_ACCOUNT_LIST_URL } from "../constants";
+//import { API_ACCOUNT_LIST_URL } from "../constants";
 
 class List extends Component {
 
@@ -16,7 +16,7 @@ class List extends Component {
   componentDidMount() {
 
     console.log(localStorage.getItem('access_token'));
-    let response = axiosWithJWT.get('/accounts/').then(
+    axiosWithJWT.get('/accounts/').then(
       response => {
         const accs = response.data;
         this.setState({
@@ -34,7 +34,7 @@ class List extends Component {
       <div>
         <Table>
           <thead>
-            <tr>
+            <tr key="headers">
               <th>username</th>
               <th>first name</th>
               <th>last name</th>
@@ -44,9 +44,8 @@ class List extends Component {
             </tr>
           </thead>
           <tbody>
-            <p>API dont work</p>
-            {this.state.accounts.map(account => (
-              <tr>
+            {this.state.accounts.map((account, i) => (
+              <tr key={"body" + i}>
                 <td>{account.username}</td>
                 <td>{account.first}</td>
                 <td>{account.last}</td>

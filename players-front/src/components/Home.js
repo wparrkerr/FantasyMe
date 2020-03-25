@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import SignUpForm from "./SignUpForm";
 import LoginForm from "./LoginForm";
 import Landing from "./Landing.js";
-import Login from "./Login.js";
 import List from "./List.js";
+import UserGoals from "./UserGoals.js"
 
 class Home extends Component {
 
@@ -22,9 +22,11 @@ class Home extends Component {
       case "signup":
         return (<SignUpForm setPage={(pageStr) => this.setPage(pageStr)}/>)
       case "login":
-        return (<LoginForm setPage={(pageStr) => this.setPage(pageStr)}/>)
+        return (<LoginForm setPage={(pageStr) => this.setPage(pageStr)} update_login_state={this.props.update_login_state}/>)
       case "data_test":
         return (<List setPage={(pageStr) => this.setPage(pageStr)}/>)
+      case "user_goals":
+        return (<UserGoals setPage={(pageStr) => this.setPage(pageStr)}/>)
       default:
         return (<h2>Whoops! Invalid Page Name!</h2>)
     }

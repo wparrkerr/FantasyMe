@@ -1,7 +1,8 @@
 import React from "react";
 import { Button, Form, FormGroup, Input, Label } from "reactstrap";
+import { isValid } from './helpers/token_helpers.js'
 
-import axios from "axios";
+//import axios from "axios";
 import axiosWithJWT from "../axiosApi";
 
 class LoginForm extends React.Component {
@@ -13,10 +14,6 @@ class LoginForm extends React.Component {
       password: "",
     }
     this.logIn = this.logIn.bind(this)
-  }
-
-  componentDidMount() {
-
   }
 
   onChange = e => {
@@ -35,6 +32,8 @@ class LoginForm extends React.Component {
         console.log(data.data.access)
         localStorage.setItem('access_token', data.data.access);
         localStorage.setItem('refresh_token', data.data.refresh);
+        this.props.setPage("user_goals") // redirect to user goals page
+        this.props.update_login_state();
         return data;
     } catch (error) {
         throw error;
