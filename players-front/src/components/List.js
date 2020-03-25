@@ -44,13 +44,8 @@ class List extends Component {
             </tr>
           </thead>
           <tbody>
-<<<<<<< HEAD
             {this.state.accounts.map((account, i) => (
               <tr key={"body" + i}>
-=======
-            {this.state.accounts.map(account => (
-              <tr key="body">
->>>>>>> 0b31c0a0a9e71b8e1801c119710232c29f385620
                 <td>{account.username}</td>
                 <td>{account.first}</td>
                 <td>{account.last}</td>

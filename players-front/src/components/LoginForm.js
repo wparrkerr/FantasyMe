@@ -16,19 +16,6 @@ class LoginForm extends React.Component {
     this.logIn = this.logIn.bind(this)
   }
 
-<<<<<<< HEAD
-=======
-  componentDidMount() {
-    if (isValid(localStorage.getItem('access_token'))){
-      // skip login and go straight to user goals page
-      console.log("your current token is good!")
-      this.props.setPage("user_goals") // redirect to user goals page
-    } else {
-      console.log("your last token is expired or null!")
-    }
-  }
-
->>>>>>> 0b31c0a0a9e71b8e1801c119710232c29f385620
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
