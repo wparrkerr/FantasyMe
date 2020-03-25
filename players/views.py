@@ -76,6 +76,7 @@ def account_signup(request):
 	if request.method == 'GET':
 		return Response('Signup')
 	elif request.method == 'POST':
+		print(request.data)
 		serializer = AccountSerializer(data = request.data)
 		if serializer.is_valid():
 			serializer.save()

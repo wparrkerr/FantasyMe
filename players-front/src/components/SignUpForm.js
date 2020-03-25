@@ -8,8 +8,6 @@ import { API_SIGNUP_URL } from "../constants";
 class SignUpForm extends React.Component {
   state = {
     username: "",
-    first: "",
-    last: "",
     email: "",
     password: "",
     password2: ""
@@ -47,14 +45,6 @@ class SignUpForm extends React.Component {
           <FormGroup>
             <Label for = "user">Username:</Label>
             <Input type = "text" name = "username" onChange = {this.onChange}/>
-          </FormGroup>
-          <FormGroup>
-            <Label for = "first">First Name:</Label>
-            <Input type = "text" name = "first" onChange = {this.onChange}/>
-          </FormGroup>
-          <FormGroup>
-            <Label for = "last">Last Name:</Label>
-            <Input type = "text" name = "last" onChange = {this.onChange}/>
           </FormGroup>
           <FormGroup>
             <Label for = "email">Email Address:</Label>
