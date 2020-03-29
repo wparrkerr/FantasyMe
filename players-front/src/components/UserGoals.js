@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, Table } from "reactstrap";
-import './styles/Header.css';
+import './styles/UserGoals.css';
 import { token_to_json } from './helpers/token_helpers.js';
 
 // API
@@ -10,7 +10,9 @@ import axiosWithJWT from "../axiosApi";
 class UserGoals extends Component {
 
   state = {
-    goals: []
+    goals: [],
+    goal_quantity: [],
+    total: 0,
   }
 
   componentDidMount() {
@@ -23,6 +25,9 @@ class UserGoals extends Component {
         this.setState({
           goals: response.data,
         });
+        // initializing goal_quantity as an array of zeros with length equal to goals length
+        // has to be here or doesn't work
+        this.setState({goal_quantity: Array(this.state.goals.length).fill(0)})
       }
     ).catch(err => {
       console.log("Err: " + err);
@@ -30,10 +35,25 @@ class UserGoals extends Component {
     })
   }
 
+  changeQuantity = i => e => {
+    var newvalue = 0
+    if (e.target.value > 0) { newvalue = e.target.value }
+    this.state.goal_quantity[i] = newvalue
+    this.update_total()
+  };
+
+  update_total() {
+    var sum = 0
+    this.state.goals.forEach((el, i) => {
+      sum += (this.state.goals[i].points_per_complete * this.state.goal_quantity[i])
+    })
+    this.setState({total: sum})
+  }
+
   render() {
     return (
       <div>
-        <Table>
+        {/* <Table>
           <thead>
             <tr key="header">
               <th>id</th>
@@ -52,7 +72,25 @@ class UserGoals extends Component {
               </tr>
             ))}
           </tbody>
-        </Table>
+        </Table> */}
+
+        <h1 id="total">TOTAL = {this.state.total}</h1>
+        {this.state.goals.map((goal, i) => (
+          // for each goal:
+          <div id="goal-row" key={"goal"+i}>
+            <p id="goal-name">{goal.name}</p>
+            <input id="goal-input" defaultValue="0" min="0" type="number" name="goal_quantity" onChange = {this.changeQuantity(i)}/>
+            <div id="goal-math">
+              <p id={"goal-math" + i}>
+                {this.state.goal_quantity[i]} x {this.state.goals[i].points_per_complete} = 
+                {this.state.goal_quantity[i] * this.state.goals[i].points_per_complete}
+              </p>
+            </div>
+          </div>
+        ))}
+        
+
+
         <Button color="primary" onClick={() => this.props.setPage("landing")}>Back</Button>
       </div>
     )

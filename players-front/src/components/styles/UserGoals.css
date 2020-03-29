@@ -1,0 +1,31 @@
+#goal-row {
+  position: relative;
+  top: 20px;
+  left: 10%;
+  padding-bottom: 50px;
+}
+
+#goal-name{
+  position: absolute;
+  top: 25%;
+  left: 10%;
+}
+
+#goal-input{
+  position: absolute;
+  top: 25%;
+  left: 30%;
+  width: 10%;
+}
+
+#goal-math{
+  position: absolute;
+  top: 25%;
+  left: 45%;
+}
+
+#total {
+  position: relative;
+  top: 20px;
+  left: 30%;
+}
