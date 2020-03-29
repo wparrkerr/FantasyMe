@@ -50,6 +50,10 @@ class UserGoals extends Component {
     this.setState({total: sum})
   }
 
+  addMore = () => {
+    this.props.setPage("edit_goals")
+  }
+
   render() {
     return (
       <div>
@@ -89,9 +93,9 @@ class UserGoals extends Component {
           </div>
         ))}
         
+        <button id="add-more-goals" onClick={this.addMore}>Add More... </button>
 
-
-        <Button color="primary" onClick={() => this.props.setPage("landing")}>Back</Button>
+        <Button id="back-button" color="primary" onClick={() => this.props.setPage("landing")}>Back</Button>
       </div>
     )
   }

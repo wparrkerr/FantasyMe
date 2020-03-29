@@ -4,6 +4,7 @@ import LoginForm from "./LoginForm";
 import Landing from "./Landing.js";
 import List from "./List.js";
 import UserGoals from "./UserGoals.js"
+import EditGoals from "./EditGoals.js"
 
 class Home extends Component {
 
@@ -27,6 +28,8 @@ class Home extends Component {
         return (<List setPage={(pageStr) => this.setPage(pageStr)}/>)
       case "user_goals":
         return (<UserGoals setPage={(pageStr) => this.setPage(pageStr)}/>)
+      case "edit_goals":
+        return (<EditGoals setPage={(pageStr) => this.setPage(pageStr)}/>)
       default:
         return (<h2>Whoops! Invalid Page Name!</h2>)
     }

@@ -29,3 +29,16 @@
   top: 20px;
   left: 30%;
 }
+
+#add-more-goals{
+  position: relative;
+  top: 20px;
+  left: 35%;
+  padding-bottom: 5px;
+}
+
+#back-button{
+  position: absolute;
+  left: 5%;
+  padding-top: 5px;
+}
