@@ -10,6 +10,12 @@ from .models import Account, Goal, Completion
 #########
 
 class GoalSerializer(serializers.ModelSerializer):
+
+	def update(self, instance, validated_data):
+		instance.points_per_complete = validated_data.get('points_per_complete', instance.points_per_complete)
+		instance.save()
+		return instance
+
 	class Meta:
 		model = Goal
 		fields = ['id', 'account', 'name', 'points_per_complete']

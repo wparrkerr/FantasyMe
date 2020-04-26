@@ -25,6 +25,7 @@ class UserGoals extends Component {
         this.setState({
           goals: response.data,
         });
+        console.log(response.data);
         // initializing goal_quantity as an array of zeros with length equal to goals length
         // has to be here or doesn't work
         this.setState({goal_quantity: Array(this.state.goals.length).fill(0)})

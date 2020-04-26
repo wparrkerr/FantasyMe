@@ -32,6 +32,18 @@ def goal_list(request):
 		serializer = GoalSerializer(goals, many=True)
 		return Response(serializer.data)
 
+@api_view(['POST'])
+def goal_create(request):
+	if request.method == 'POST':
+		print(request.data)
+		serializer = GoalSerializer(data = request.data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(status=status.HTTP_201_CREATED)
+		return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+
+
+# The goal serializer only allows you to update points_per_complete
 @api_view(['GET', 'PUT', 'DELETE'])
 def goal_detail(request, pk):
 	try:
@@ -42,6 +54,16 @@ def goal_detail(request, pk):
 	if request.method == 'GET':
 		serializer = GoalSerializer(goal)
 		return Response(serializer.data)
+	elif request.method == 'PUT':
+		# partial allows you to save a serializer without every field (here we only update points_per_complete)
+		serializer = GoalSerializer(goal, data=request.data, partial=True) 
+		if serializer.is_valid():
+			serializer.save() # automatically calls update() in the goal serializer bc was initialized with a goal instance
+			return Response(status=status.HTTP_200_OK)
+		return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+	elif request.method == 'DELETE':
+		goal.delete()
+		return Response(status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def goal_completions(request, pk):
@@ -57,19 +79,13 @@ def goal_completions(request, pk):
 
 ##### Accounts ######
 
-@api_view(['GET', 'POST'])
+@api_view(['GET'])
 @permission_classes([IsAuthenticated]) # To test authentication
 def account_list(request):
 	if request.method == 'GET':
 		accounts = Account.objects.all()
 		serializer = AccountSerializer(accounts, many=True)
 		return Response(serializer.data)
-	elif request.method == 'POST':
-		serializer = AccountSerializer(data = request.data)
-		if serializer.is_valid():
-			serializer.save()
-			return Response(status=status.HTTP_201_CREATED)
-		return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'POST'])
 def account_signup(request):

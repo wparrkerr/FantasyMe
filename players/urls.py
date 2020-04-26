@@ -17,6 +17,7 @@ urlpatterns = [
     path('api/goals/', views.goal_list),
     path('api/goals/<int:pk>', views.goal_detail),
     path('api/goals/<int:pk>/completions', views.goal_completions),
+    path('api/goals/create', views.goal_create),
     path('api/accounts/signup/', views.account_signup),
     path('api/accounts/', views.account_list),
     path('api/accounts/<int:pk>', views.account_detail),

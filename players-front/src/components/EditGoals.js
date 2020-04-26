@@ -9,9 +9,15 @@ import axiosWithJWT from "../axiosApi";
 
 class EditGoals extends Component {
 
-  state = {
-    goals: [],
+  constructor(props) {
+    super(props)
+    this.state = {
+      goals: [],
+      new_goal_name: "",
+      new_goal_quantity: 0
+    }
   }
+  
 
   componentDidMount() {
 
@@ -30,6 +36,19 @@ class EditGoals extends Component {
     })
   }
 
+  handleChange(event) {
+    const { id, value } = event.target;
+    this.setState({ [id]: value });
+    console.log(event.target.value);
+  }
+
+  createGoal() {
+    const ppc = this.state.new_goal_quantity
+    const name = this.state.new_goal_name
+    alert(this.state.new_goal_quantity)
+    // Submit goal to server
+  }
+
   render() {
     return (
       <div>
@@ -37,8 +56,8 @@ class EditGoals extends Component {
           <thead>
             <tr key="header">
               <th>name</th>
-              <th>points_per_complete</th>
-              <th>delete</th>
+              <th>Points per completion </th>
+              <th></th>
             </tr>
           </thead>
           <tbody> {/* EDIT GOALS */}
@@ -54,12 +73,12 @@ class EditGoals extends Component {
             ))}
             <tr> {/* CREATE A NEW GOAL */}
               <td>
-              <input id="new-name-input" type="text" onChange = {() => 8} defaultValue="name"/>
+              <input id="new_goal_name" type="text" onChange = {(e) => {this.handleChange(e)}} defaultValue="name"/>
               </td>
               <td>
-                <input id="new-quantity-input" min="0" type="number" onChange = {() => 8} defaultValue={0}/>
+                <input id="new_goal_quantity" min="0" type="number" onChange = {(e) => {this.handleChange(e)}} defaultValue={0}/>
               </td>
-              <td><button>create</button></td>
+              <td><button onClick={() => {this.createGoal()}}>create</button></td>
             </tr>
           </tbody>
         </Table>
