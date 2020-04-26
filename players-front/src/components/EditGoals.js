@@ -35,20 +35,70 @@ class EditGoals extends Component {
       window.alert(err);
     })
   }
-
+0
+  // Sets the key "{id}" equal to "{value}" in state
   handleChange(event) {
     const { id, value } = event.target;
     this.setState({ [id]: value });
-    console.log(event.target.value);
   }
 
   createGoal() {
     const ppc = this.state.new_goal_quantity
     const name = this.state.new_goal_name
-    alert(this.state.new_goal_quantity)
     // Submit goal to server
+    let token_json = token_to_json(localStorage.getItem('access_token'));
+    const user_id = token_json.user_id;
+    const params = {
+      "account": user_id,
+      "name": name,
+      "points_per_complete": ppc
+    };
+    axiosWithJWT.post('/goals/create', params).then(
+      response => {
+        let current_goals = this.state.goals
+        let new_goal = response.data
+        current_goals.push(new_goal)
+        this.setState({ goals: current_goals})
+      }
+    ).catch(err => {
+      console.log("Err: " + err);
+      window.alert(err);
+    })
   }
 
+  deleteGoal(goal_id) {
+    axiosWithJWT.delete(`/goals/${goal_id}`).then(
+      response => {
+        if (response.status === 200) {
+          let current_goals = this.state.goals
+          let updated_goals = current_goals.filter(goal => goal.id != goal_id)
+          this.setState({ goals: updated_goals})
+        }
+      }
+    ).catch(err => {
+      console.log("Err: " + err);
+      window.alert(err);
+    })
+  }
+/*
+  saveGoalQuantity(goal_id) {
+    params = {
+      "points_per_complete": 0 // make this accurate
+    };
+    axiosWithJWT.put(`/goals/${goal_id}`).then(
+      response => {
+        if (response.status === 200) {
+          let current_goals = this.state.goals
+          let updated_goals = current_goals.filter(goal => goal.id != goal_id)
+          this.setState({ goals: updated_goals})
+        }
+      }
+    ).catch(err => {
+      console.log("Err: " + err);
+      window.alert(err);
+    })
+  }
+*/
   render() {
     return (
       <div>
@@ -66,9 +116,9 @@ class EditGoals extends Component {
                 <td>{goal.name}</td>
                 <td>
                   <input id="quantity-input" min="0" type="number" onChange = {() => 8} defaultValue={goal.points_per_complete}/>
-                  <button>save</button>
+                  <button onClick={() => {this.saveGoalQuantity(goal.id)}}>save</button>
                 </td>
-                <td><button>delete</button></td>
+                <td><button onClick={() => {this.deleteGoal(goal.id)}}>delete</button></td>
               </tr>
             ))}
             <tr> {/* CREATE A NEW GOAL */}
