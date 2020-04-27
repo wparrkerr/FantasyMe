@@ -138,6 +138,7 @@ CORS_ALLOW_METHODS = [
     'OPTIONS',
     'POST',
     'DELETE',
+    'PUT',
 ]
 
 REST_FRAMEWORK = {
