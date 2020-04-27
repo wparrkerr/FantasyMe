@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Table } from "reactstrap";
+import { Button } from "reactstrap";
 import './styles/UserGoals.css';
 import { token_to_json } from './helpers/token_helpers.js';
 
@@ -34,6 +34,10 @@ class UserGoals extends Component {
       console.log("Err: " + err);
       window.alert(err);
     })
+  }
+
+  componentWillUnmount() {
+    
   }
 
   changeQuantity = i => e => {
@@ -94,7 +98,7 @@ class UserGoals extends Component {
           </div>
         ))}
         
-        <button id="add-more-goals" onClick={this.addMore}>Add More... </button>
+        <button id="add-more-goals" onClick={this.addMore}>Edit Goals... </button>
 
         <Button id="back-button" color="primary" onClick={() => this.props.setPage("landing")}>Back</Button>
       </div>

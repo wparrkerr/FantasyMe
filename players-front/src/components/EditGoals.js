@@ -35,7 +35,7 @@ class EditGoals extends Component {
       window.alert(err);
     })
   }
-0
+  
   // Sets the key "{id}" equal to "{value}" in state
   handleChange(event) {
     const { id, value } = event.target;
@@ -45,6 +45,10 @@ class EditGoals extends Component {
   createGoal() {
     const ppc = this.state.new_goal_quantity
     const name = this.state.new_goal_name
+    if (String(name) === "") {
+      // If no goal name given, do not try to create goal
+      return
+    }
     // Submit goal to server
     let token_json = token_to_json(localStorage.getItem('access_token'));
     const user_id = token_json.user_id;
@@ -55,6 +59,11 @@ class EditGoals extends Component {
     };
     axiosWithJWT.post('/goals/create', params).then(
       response => {
+        // reset new_goal fields
+        document.getElementById("new_goal_name").value = null
+        document.getElementById("new_goal_quantity").value = null
+        this.setState({ new_goal_name: "", new_goal_quantity: 0})
+        // update goals
         let current_goals = this.state.goals
         let new_goal = response.data
         current_goals.push(new_goal)
@@ -71,7 +80,7 @@ class EditGoals extends Component {
       response => {
         if (response.status === 200) {
           let current_goals = this.state.goals
-          let updated_goals = current_goals.filter(goal => goal.id != goal_id)
+          let updated_goals = current_goals.filter(goal => goal.id !== goal_id)
           this.setState({ goals: updated_goals})
         }
       }
@@ -80,17 +89,22 @@ class EditGoals extends Component {
       window.alert(err);
     })
   }
-/*
+
   saveGoalQuantity(goal_id) {
-    params = {
-      "points_per_complete": 0 // make this accurate
+    let inputted_quantity = (parseInt(document.getElementById("quantity-input-"+goal_id).value) || 0)
+    const params = {
+      "points_per_complete": inputted_quantity
     };
-    axiosWithJWT.put(`/goals/${goal_id}`).then(
+    axiosWithJWT.put(`/goals/${goal_id}`, params).then(
       response => {
         if (response.status === 200) {
-          let current_goals = this.state.goals
-          let updated_goals = current_goals.filter(goal => goal.id != goal_id)
-          this.setState({ goals: updated_goals})
+          let goals_copy = this.state.goals
+          for (let i = 0; i < goals_copy.length; ++i) {
+            if (goals_copy[i].id === goal_id) {
+              goals_copy[i].points_per_complete = inputted_quantity
+            }
+          }
+          this.setState({ goals: goals_copy})
         }
       }
     ).catch(err => {
@@ -98,14 +112,14 @@ class EditGoals extends Component {
       window.alert(err);
     })
   }
-*/
+
   render() {
     return (
       <div>
         <Table>
           <thead>
             <tr key="header">
-              <th>name</th>
+              <th>Name</th>
               <th>Points per completion </th>
               <th></th>
             </tr>
@@ -115,7 +129,7 @@ class EditGoals extends Component {
               <tr key={"goals" + i}>
                 <td>{goal.name}</td>
                 <td>
-                  <input id="quantity-input" min="0" type="number" onChange = {() => 8} defaultValue={goal.points_per_complete}/>
+                  <input id={"quantity-input-"+goal.id} min={0} type="number" defaultValue={goal.points_per_complete}/>
                   <button onClick={() => {this.saveGoalQuantity(goal.id)}}>save</button>
                 </td>
                 <td><button onClick={() => {this.deleteGoal(goal.id)}}>delete</button></td>
@@ -123,10 +137,10 @@ class EditGoals extends Component {
             ))}
             <tr> {/* CREATE A NEW GOAL */}
               <td>
-              <input id="new_goal_name" type="text" onChange = {(e) => {this.handleChange(e)}} defaultValue="name"/>
+                <input id="new_goal_name" type="text" onChange = {(e) => {this.handleChange(e)}} placeholder="goal name"/>
               </td>
               <td>
-                <input id="new_goal_quantity" min="0" type="number" onChange = {(e) => {this.handleChange(e)}} defaultValue={0}/>
+                <input id="new_goal_quantity" min="0" type="number" onChange = {(e) => {this.handleChange(e)}} placeholder="#pts"/>
               </td>
               <td><button onClick={() => {this.createGoal()}}>create</button></td>
             </tr>
