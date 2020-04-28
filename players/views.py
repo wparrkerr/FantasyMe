@@ -129,17 +129,40 @@ def completion_list(request):
 		completions = Completion.objects.all()
 		serializer = CompletionSerializer(completions, many=True)
 		return Response(serializer.data)
-
-@api_view(['GET'])
-def completion_detail(request, pk):
-	try:
-		completion = Completion.objects.get(pk=pk)
+	
+@api_view(['GET', 'PUT'])
+def completion_detail(request, goal_id_in, date_in):
+	doesnt_exist = 0
+	try: 
+		completion = Completion.objects.filter(goal=goal_id_in).get(date=date_in)
 	except Completion.DoesNotExist:
-		return Response(status=status.HTTP_404_NOT_FOUND)
-
+		if request.method == 'PUT':
+			doesnt_exist = 1
+		else:
+			return Response(status=status.HTTP_204_NO_CONTENT)
+	if request.method == 'PUT':
+		if doesnt_exist:
+			serializer = CompletionSerializer(data=request.data, partial=True)
+		else: 
+			serializer = CompletionSerializer(completion, data=request.data, partial=True) 
+		if serializer.is_valid():
+			serializer.save()
+			return Response(status=status.HTTP_200_OK)
+		return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 	if request.method == 'GET':
 		serializer = CompletionSerializer(completion)
 		return Response(serializer.data)
+
+# @api_view(['GET'])
+# def completion_detail(request, pk):
+# 	try:
+# 		completion = Completion.objects.get(pk=pk)
+# 	except Completion.DoesNotExist:
+# 		return Response(status=status.HTTP_404_NOT_FOUND)
+
+# 	if request.method == 'GET':
+# 		serializer = CompletionSerializer(completion)
+# 		return Response(serializer.data)
 
 ##############################################################
 # pages -- OLD? --- Well, this is pre bootstrap and 

@@ -124,7 +124,8 @@ class EditGoals extends Component {
               <th></th>
             </tr>
           </thead>
-          <tbody> {/* EDIT GOALS */}
+          {/* EDIT GOALS */}
+          <tbody> 
             {this.state.goals.map((goal, i) => (
               <tr key={"goals" + i}>
                 <td>{goal.name}</td>
@@ -135,7 +136,8 @@ class EditGoals extends Component {
                 <td><button onClick={() => {this.deleteGoal(goal.id)}}>delete</button></td>
               </tr>
             ))}
-            <tr> {/* CREATE A NEW GOAL */}
+            {/* CREATE A NEW GOAL */}
+            <tr> 
               <td>
                 <input id="new_goal_name" type="text" onChange = {(e) => {this.handleChange(e)}} placeholder="goal name"/>
               </td>

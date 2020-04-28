@@ -12,11 +12,12 @@ class UserGoals extends Component {
   state = {
     goals: [],
     goal_quantity: [],
+    // used to determine (@ unmounting) which quantities have changed and should be updated
+    original_goal_quantity: [], 
     total: 0,
   }
 
   componentDidMount() {
-
     // token_to_json is a helper function
     let token_json = token_to_json(localStorage.getItem('access_token'));
     console.log(token_json)
@@ -29,6 +30,8 @@ class UserGoals extends Component {
         // initializing goal_quantity as an array of zeros with length equal to goals length
         // has to be here or doesn't work
         this.setState({goal_quantity: Array(this.state.goals.length).fill(0)})
+        this.setState({original_goal_quantity: Array(this.state.goals.length).fill(0)})
+        this.update_goals_with_completions()
       }
     ).catch(err => {
       console.log("Err: " + err);
@@ -36,8 +39,54 @@ class UserGoals extends Component {
     })
   }
 
+  format_JSdate(date) {
+    const offset = date.getTimezoneOffset()
+    date = new Date(date.getTime() + (offset*60*1000))
+    return date.toISOString().split('T')[0]
+  }
+
+  update_goals_with_completions() {
+    for (var i = 0; i < this.state.goals.length; ++i){
+      this.add_completion_quantity(i, this.state.goals[i].id, this.format_JSdate(new Date()))
+    }
+  }
+
+  add_completion_quantity = (i, goal_id, date) => {
+    axiosWithJWT.get(`/completions/${goal_id}/${date}`).then(
+      response => {
+        if (response.status === 200) {
+          let completion = response.data
+          this.state.goal_quantity[i] = completion.quantity
+          this.state.original_goal_quantity[i] = completion.quantity
+          this.forceUpdate()
+          this.update_total()
+        }
+      }
+    ).catch(err => {
+      console.log("Err: " + err);
+      window.alert(err);
+    })
+  }
+
+  put_completion = (quantity, goal_id, date) => {
+    const params = {
+      "quantity": quantity,
+      "date": date,
+      "goal": goal_id,
+    }
+    axiosWithJWT.put(`/completions/${goal_id}/${date}`, params).catch(err => {
+      console.log("Err: " + err);
+      window.alert(err);
+    })
+  }
+
   componentWillUnmount() {
-    
+    for (let i = 0; i < this.state.goals.length; ++i){
+      let quantity = this.state.goal_quantity[i]
+      if (quantity !== this.state.original_goal_quantity[i]){
+        this.put_completion(quantity, this.state.goals[i].id, this.format_JSdate(new Date()))
+      }
+    }
   }
 
   changeQuantity = i => e => {
@@ -62,33 +111,13 @@ class UserGoals extends Component {
   render() {
     return (
       <div>
-        {/* <Table>
-          <thead>
-            <tr key="header">
-              <th>id</th>
-              <th>account</th>
-              <th>name</th>
-              <th>points_per_complete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.goals.map((goal, i) => (
-              <tr key={"goals" + i}>
-                <td>{goal.id}</td>
-                <td>{goal.account}</td>
-                <td>{goal.name}</td>
-                <td>{goal.points_per_complete}</td>
-              </tr>
-            ))}
-          </tbody>
-        </Table> */}
-
         <h1 id="total">TOTAL = {this.state.total}</h1>
         {this.state.goals.map((goal, i) => (
           // for each goal:
           <div id="goal-row" key={"goal"+i}>
             <p id="goal-name">{goal.name}</p>
-            <input id="goal-input" defaultValue="0" min="0" type="number" name="goal_quantity" onChange = {this.changeQuantity(i)}/>
+            <input id="goal-input" defaultValue={this.state.goal_quantity[i]} min="0" type="number" 
+                  name="goal_quantity" onChange = {this.changeQuantity(i)}/>
             <div id="goal-math">
               <p id={"goal-math" + i}>
                 {this.state.goal_quantity[i]} x {this.state.goals[i].points_per_complete} = 

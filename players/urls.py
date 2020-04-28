@@ -23,5 +23,6 @@ urlpatterns = [
     path('api/accounts/<int:pk>', views.account_detail),
     path('api/accounts/<int:pk>/goals', views.account_goals),
     path('api/completions/', views.completion_list),
+    path('api/completions/<int:goal_id_in>/<date_in>', views.completion_detail),
     path('api/completions/<int:pk>', views.completion_detail),
 ]
