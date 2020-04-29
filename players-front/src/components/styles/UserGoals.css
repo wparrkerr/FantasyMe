@@ -42,3 +42,8 @@
   left: 5%;
   padding-top: 5px;
 }
+
+.new_goal_input{
+  border: 1px solid lightgray;
+  border-radius: 1.5px;
+}

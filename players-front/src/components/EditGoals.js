@@ -6,6 +6,7 @@ import { token_to_json } from './helpers/token_helpers.js';
 // API
 //import axios from "axios";
 import axiosWithJWT from "../axiosApi";
+import BasicModal from "./BasicModal";
 
 class EditGoals extends Component {
 
@@ -14,10 +15,11 @@ class EditGoals extends Component {
     this.state = {
       goals: [],
       new_goal_name: "",
-      new_goal_quantity: 0
+      new_goal_quantity: 0,
+      show_modal: false,
+      goalToDelete: null,
     }
   }
-  
 
   componentDidMount() {
 
@@ -113,9 +115,22 @@ class EditGoals extends Component {
     })
   }
 
+  closeModal(confirmed_status) {
+    this.setState({ show_modal: false })
+    console.log(confirmed_status)
+    if (confirmed_status === "submit") {
+      this.deleteGoal(this.state.goalToDelete.id)
+    }
+  }
+
   render() {
     return (
       <div>
+        {this.state.show_modal 
+          ? <BasicModal message={"Are you sure you want to delete goal: " + this.state.goalToDelete.name + "?"}
+                        header="Are You Sure?" 
+                        close_modal={this.closeModal.bind(this)}/>
+          : null}
         <Table>
           <thead>
             <tr key="header">
@@ -133,16 +148,18 @@ class EditGoals extends Component {
                   <input id={"quantity-input-"+goal.id} min={0} type="number" defaultValue={goal.points_per_complete}/>
                   <button onClick={() => {this.saveGoalQuantity(goal.id)}}>save</button>
                 </td>
-                <td><button onClick={() => {this.deleteGoal(goal.id)}}>delete</button></td>
+                <td><button onClick={() => {this.setState({show_modal: true, goalToDelete: goal})}}>delete</button></td>
               </tr>
             ))}
             {/* CREATE A NEW GOAL */}
             <tr> 
               <td>
-                <input id="new_goal_name" type="text" onChange = {(e) => {this.handleChange(e)}} placeholder="goal name"/>
+                <input className="new_goal_input" id="new_goal_name" 
+                        type="text" onChange = {(e) => {this.handleChange(e)}} placeholder="goal name"/>
               </td>
               <td>
-                <input id="new_goal_quantity" min="0" type="number" onChange = {(e) => {this.handleChange(e)}} placeholder="#pts"/>
+                <input className="new_goal_input" id="new_goal_quantity" 
+                        min="0" type="number" onChange = {(e) => {this.handleChange(e)}} placeholder="#pts"/>
               </td>
               <td><button onClick={() => {this.createGoal()}}>create</button></td>
             </tr>
